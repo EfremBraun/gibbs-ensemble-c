@@ -25,7 +25,7 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
    Volo[1] = pow(Box[1],3);
    Volt = Volo[0] + Volo[1];
    Dlnv = log(Volo[0]/Volo[1]) + (RandomNumber()-0.5)*Vmax;
-   Voln[0] = exp(Dlnv)*Volt/(1.0+exp(Dlnv));
+   Voln[0] = exp(Dlnv)*Volt/(1.0+exp(Dlnv)); // Note to Efrem: I don't get this calculation, but I won't be making moves in ln space, so it doesn't matter much to me.
    Voln[1] = Volt - Voln[0];
 
    for(BoxID=0;BoxID<2;BoxID++)
@@ -33,8 +33,8 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
        Box[BoxID] = pow(Voln[BoxID],(1.0/3.0));
        F[BoxID] = Box[BoxID]/pow(Volo[BoxID],(1.0/3.0));
        Hbox[BoxID] = Box[BoxID]/2.0;
-       Rc[BoxID] = F[BoxID]*Rc[BoxID];
-       Rc2[BoxID] = pow(Rc[BoxID],2.0);
+       Rc[BoxID] = F[BoxID]*Rc[BoxID];  // Note to Efrem: I see no reason why the r_cutoff should be scaled. This just looks wrong to me. Fix this before using this code for comparing my modified Gibbs Ensemble code to.
+       Rc2[BoxID] = pow(Rc[BoxID],2.0); // Note to Efrem: I see no reason why the r_cutoff should be scaled. This just looks wrong to me. Fix this before using this code for comparing my modified Gibbs Ensemble code to.
      }
    
    // ---Determine New Coordinates
@@ -46,7 +46,7 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
        Z[I] = F[Idi]*Z[I];
      }
    
-   //    ---Calculate New Energy Using Scaling
+   //    ---Calculate New Energy Using Scaling // Note to Efrem: I don't know if this works or not, but if it was designed for r_cutoff scaling it shouldn't be done. It certainly won't work for modified Gibbs Ensemble.
    for(BoxID=0;BoxID<2;BoxID++)
      {
        Enold = En[BoxID];
@@ -84,8 +84,8 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
 	   F[BoxID] = 1/F[BoxID];
 	   Box[BoxID] = Box[BoxID]*F[BoxID];
 	   Hbox[BoxID] = 0.5*Box[BoxID];
-	   Rc[BoxID] = F[BoxID]*Rc[BoxID];
-	   Rc2[BoxID] = pow(Rc[BoxID],2);
+	   Rc[BoxID] = F[BoxID]*Rc[BoxID]; // Note to Efrem: same deal here as before.
+	   Rc2[BoxID] = pow(Rc[BoxID],2); // Note to Efrem: same deal here as before.
 	 }
        for(I=0;I<Npart;I++)
 	 {

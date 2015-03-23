@@ -144,7 +144,8 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
 	}
       else
 	{
-	  Rc[BoxID]= Hbox[BoxID];
+          printf("Rcc (%lf) is greater than Hbox[BoxID] (%lf)\n",Rcc, Hbox[BoxID]);
+          exit(1);
 	}
       Rc2[BoxID] = Rc[BoxID]*Rc[BoxID];
     }

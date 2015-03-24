@@ -105,7 +105,7 @@ int main()
 		     Npbox[0], Npbox[1]);
 	      
 	      //             ---Write Intermediate Configuration To File
-	      Fileptr=fopen("fort.lj.restart.int","w");
+	      Fileptr=fopen("output.lj.restart.int","w");
 	      Store(Fileptr, Dr, Vmax);
 	      fclose(Fileptr);
 	      for(BoxID=0;BoxID<2;BoxID++)
@@ -177,7 +177,7 @@ int main()
 	  Init_Chem(2);
 	}
     }
-  Fileptr=fopen("fort.lj.restart","w");
+  Fileptr=fopen("output.lj.restart","w");
   Store(Fileptr, Dr, Vmax);
   fclose(Fileptr);
   return(0);

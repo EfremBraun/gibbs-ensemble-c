@@ -11,7 +11,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
 {
   // Reads Input Data And Model Parameters
   //
-  // ---Input Parameters: File: Fort.input
+  // ---Input Parameters: File: input.settings
   // BoxIDeg  =  0 : Initilaize From A Lattice
   //          1 : Read Configuration From Disk
   // Equil      : Number Of Monte Carlo Cycles During Equilibration
@@ -29,19 +29,19 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
   // Temp       : Temperature
   // Rho        : Density
   
-  //  ---Input Parameters: File: Fort.lj.model
+  //  ---Input Parameters: File: input.lj.model
   // Eps    = Epsilon Lennard-Jones Potential
   // Sig    = Sigma Lennard-Jones Potential
   // Mass   = Mass Of The Particle
   // Rcc    = Cut-Off Radius Of The Potential
   
-  //  ---Input Parameters: File: Fort.lj.restart (Restart File
+  //  ---Input Parameters: File: output.lj.restart (Restart File
   //             To Continue A Simulation From Disk)
   // Box(1)   = Length Box 1 Old Configuration
   // Hbox(1)  = Box(1)/2
   // Box(2)   = Length Box 2 Old Configuration
   // Hbox(2)  = Box(2)/2
-  // Npart    = Total Number Of Particles (overrules fort.input!!)
+  // Npart    = Total Number Of Particles (overrules input.settings!!)
   // Npbox(1) = Number Of Particles In Box 1
   // Npbox(2) = Number Of Particles In Box 2
   // Dr     = Optimized Maximum Displacement Old Configurations
@@ -57,7 +57,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
   FILE* fileptr;
   char line[500];
   
-  fileptr=fopen("fort.input","r");
+  fileptr=fopen("input.settings","r");
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%d %d %d %d",&BoxIDeg,Equil,Prod,Nsamp);
@@ -78,7 +78,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
     }
   
   //  ---Read Model Parameters
-  fileptr=fopen("fort.lj.model","r");
+  fileptr=fopen("input.lj.model","r");
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%lf %lf %lf %lf",&Eps,&Sig,&Mass,&Rcc);      
@@ -100,7 +100,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
   else
     {
       printf("Read Conf From Disk\n");
-      fileptr=fopen("fort.lj.restart","r");
+      fileptr=fopen("output.lj.restart","r");
       fscanf(fileptr,"%lf %lf %lf %lf",&(Box[0]), &(Hbox[0]), &(Box[1]), &(Hbox[1]));
       fscanf(fileptr,"%d %d %d",&Npart, &(Npbox[0]), &(Npbox[1]));
       fscanf(fileptr,"%lf %lf",Dr,Vmax);

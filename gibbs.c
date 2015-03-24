@@ -29,6 +29,7 @@ int main()
   printf("**************** GIBBS ***************\n");
   
   //    ---Initialize System
+  printf("\nSYSTEM INITIALIZATION\n");
   Readdat(&Equil, &Prod, &Nsamp, &Ndispl, &Dr, &Nvol, &Vmax, &Nswap, &Succ);
   Nmoves = Ndispl + Nvol + Nswap;
   
@@ -51,12 +52,12 @@ int main()
       if(I==1)
 	{
 	  Ncycl = Equil;
-	  if(Ncycl!=0) printf("Start Equilibration\n"); 
+	  if(Ncycl!=0) printf("\nSTART EQUILIBRATION\n"); 
 	}
       else
 	{
 	  Ncycl = Prod;
-	  if(Ncycl!=0) printf("Start Production\n"); 
+	  if(Ncycl!=0) printf("\nSTART PRODUCTION\n"); 
 	}
       Attempt = 0;
       Nacc = 0;
@@ -111,15 +112,27 @@ int main()
 		{
 		  printf("Density: %g\n",(double)Npbox[BoxID]/pow(Box[BoxID],3.));
 		}
+
 	      //             ---Adjust Maximum Displacements
-	      
 	      Adjust(Attempt, Nacc, &Dr, AttemptVolume, AcceptVolume, &Vmax, Succ);
             }
 	}
+
+      // Wrap-up, printing some information to screen
       if(Ncycl!=0)
 	{
 	  if(Attempt!=0) 
 	    {
+              if(I==1) 
+              {
+                printf("Finished Equilibration\n");
+                printf("\nEQUILIBRATION STATS\n");
+              }
+              else 
+              {
+                printf("Fnished Production\n");
+                printf("\nPRODUCTION STATS\n");
+              }
 	      printf("Number of Att. to Displ. a Part.: %d\n", Attempt);
 	      printf("Success: %d (= %lf %%)\n",Nacc,
 		     100.*(double)(Nacc)/(double)(Attempt));
@@ -148,7 +161,7 @@ int main()
 		{
                   printf(" ######### Problems Virial ################ \n");
 		}
-	      printf("Box: %d\n",BoxID);
+	      printf("\nBox: %d\n",BoxID);
 	      printf("Total Energy End of Simulation: %g\n",Ent[BoxID]);
 	      printf("Running Energy: %g\n",En[BoxID]);
 	      printf("Difference: %g\n",(Ent[BoxID] - En[BoxID]));
@@ -160,6 +173,7 @@ int main()
 	      printf("Density: %g\n",(double)Npbox[BoxID]/pow(Box[BoxID],3.));
             }
 	  //          ---Calculation Chemical Potential
+          printf("\n");
 	  Init_Chem(2);
 	}
     }

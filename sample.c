@@ -28,7 +28,7 @@ void Sample(int I,double *En,double *Vir)
 	}
     }
   
-  fileptr=fopen("out.lj.prt","a");
+  fileptr=fopen("output.lj.prt","a");
   fprintf(fileptr,"%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",I, Enp[0],Enp[1],Press[0],Press[1],Rho[0],Rho[1]);
   fclose(fileptr);
   return;

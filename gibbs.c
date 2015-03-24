@@ -66,13 +66,12 @@ int main()
       AcceptSwap = 0;
       
       //       ---Initialize Calculation Chemical Potential
-      
       Init_Chem(0);
       
       //       ---Intialize The Subroutine That Adjust The Maximum Displacement
-
-      Adjust(Attempt, Nacc, Dr, AttemptVolume, AcceptVolume, Vmax, Succ);
-      
+      Adjust(Attempt, Nacc, &Dr, AttemptVolume, AcceptVolume, &Vmax, Succ);
+     
+      //       ---Begin MC loop
       for(Icycl=0;Icycl<Ncycl;Icycl++)
 	{
 	  for(Imove=0;Imove<Nmoves;Imove++)
@@ -114,7 +113,7 @@ int main()
 		}
 	      //             ---Adjust Maximum Displacements
 	      
-	      Adjust(Attempt, Nacc, Dr, AttemptVolume, AcceptVolume, Vmax, Succ);
+	      Adjust(Attempt, Nacc, &Dr, AttemptVolume, AcceptVolume, &Vmax, Succ);
             }
 	}
       if(Ncycl!=0)

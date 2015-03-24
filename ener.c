@@ -16,8 +16,8 @@ int Ener(double *En, double *Vir, double R2, int BoxID)
     {
       R2i = Sig2/R2;
       R6i = R2i*R2i*R2i;
-      *En  = Eps4*(R6i*R6i-R6i);
-      *Vir = Eps48*(R6i*R6i-0.5*R6i);
+      *En  = Eps4*(R6i*R6i-R6i); // Note to Efrem: add tail corrections
+      *Vir = Eps48*(R6i*R6i-0.5*R6i); // Note to Efrem: add tail corrections
     }
   else
     {

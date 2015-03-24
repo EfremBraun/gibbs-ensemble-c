@@ -30,7 +30,7 @@ int Init_Chem(int Switch)
 	    }
 	}
       printf("------------------- \n");
-      printf("Chemical Potentials \n");
+      printf("Chemical Potentials (off by ln(lambda^3)/Beta)\n");
       printf("Number of Samples: %d\n", ((Ichp[0]+Ichp[1])/2));
       printf("Box 1: %g\n",Chp[0]);
       printf("Box 2: %g\n",Chp[1]);

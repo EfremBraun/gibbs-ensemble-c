@@ -46,15 +46,17 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
        Z[I] = F[Idi]*Z[I];
      }
    
-   //    ---Calculate New Energy Using Scaling // Note to Efrem: I don't know if this works or not, but if it was designed for r_cutoff scaling it shouldn't be done. It certainly won't work for modified Gibbs Ensemble.
+   //    ---Calculate New Energy Using Scaling //
    for(BoxID=0;BoxID<2;BoxID++)
      {
-       Enold = En[BoxID];
-       Yy = pow((Volo[BoxID]/Voln[BoxID]),2);
-       Enn[BoxID] = Enold*Yy*(2.0-Yy) - 
-	 Vir[BoxID]*Yy*(1.0-Yy)/6.0;
-       Virn[BoxID] = -12.0*Enold*Yy*(Yy-1.0) + 
-	 Vir[BoxID]*Yy*(2.0*Yy-1.0);
+       Toterg(&(Enn[BoxID]),&(Virn[BoxID]),BoxID);
+// What follows is the old way of doing it that is not correct if you don't change r_cutoff or if you're doing modified Gibbs ensemble
+//       Enold = En[BoxID];
+//       Yy = pow((Volo[BoxID]/Voln[BoxID]),2);
+//       Enn[BoxID] = Enold*Yy*(2.0-Yy) - 
+//	 Vir[BoxID]*Yy*(1.0-Yy)/6.0;
+//       Virn[BoxID] = -12.0*Enold*Yy*(Yy-1.0) + 
+//	 Vir[BoxID]*Yy*(2.0*Yy-1.0);
      }
       
    // ---Acceptance:

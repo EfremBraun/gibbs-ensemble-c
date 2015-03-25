@@ -33,8 +33,11 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
        Box[BoxID] = pow(Voln[BoxID],(1.0/3.0));
        F[BoxID] = Box[BoxID]/pow(Volo[BoxID],(1.0/3.0));
        Hbox[BoxID] = Box[BoxID]/2.0;
-       Rc[BoxID] = F[BoxID]*Rc[BoxID];  // Note to Efrem: I see no reason why the r_cutoff should be scaled. This just looks wrong to me. Fix this before using this code for comparing my modified Gibbs Ensemble code to.
-       Rc2[BoxID] = pow(Rc[BoxID],2.0); // Note to Efrem: I see no reason why the r_cutoff should be scaled. This just looks wrong to me. Fix this before using this code for comparing my modified Gibbs Ensemble code to.
+       if (Rc[BoxID] >= Hbox[BoxID])
+       {
+         printf("Half of box length (%lf) has become smaller than Rc (%lf)\n", Hbox[BoxID], Rc[BoxID]);
+         exit(1);
+       }
      }
    
    // ---Determine New Coordinates
@@ -86,8 +89,6 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
 	   F[BoxID] = 1/F[BoxID];
 	   Box[BoxID] = Box[BoxID]*F[BoxID];
 	   Hbox[BoxID] = 0.5*Box[BoxID];
-	   Rc[BoxID] = F[BoxID]*Rc[BoxID]; // Note to Efrem: same deal here as before.
-	   Rc2[BoxID] = pow(Rc[BoxID],2); // Note to Efrem: same deal here as before.
 	 }
        for(I=0;I<Npart;I++)
 	 {

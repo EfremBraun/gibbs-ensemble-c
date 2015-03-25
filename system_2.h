@@ -6,7 +6,7 @@ int Lattice(void);
 int Mcmove(double En[2], double Vir[2], int *Attempt, int *Nacc, double Dr);
 int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax);
 int Mcswap(double En[2], double Vir[2],  int *Attempt, int *Acc);
-void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,double *Vmax,int *Nswap,double *Succ);
+void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,int *Nprint,double *Dr,int *Nvol,double *Vmax,int *Nswap,double *Succ);
 void Sample(int I,double *En,double *Vir);
 void Store(FILE* Iout,double Dr,double Vmax);
 void Toterg(double *Ener,double *Vir,int BoxID);

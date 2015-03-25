@@ -7,7 +7,7 @@
 #include "conf.h"
 
 
-void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,double *Vmax,int *Nswap,double *Succ)
+void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr,int *Nvol,double *Vmax,int *Nswap,double *Succ)
 {
   // Reads Input Data And Model Parameters
   //
@@ -17,6 +17,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
   // Equil      : Number Of Monte Carlo Cycles During Equilibration
   // Prod       : Number Of Monte Carlo Cycles During Production
   // Nsamp      : Number Of Monte Carlo Cycles Between Two Sampling Periods
+  // Nprint     : Number Of Monte Carlo Cycles Between Printing of Movie PDBs
   // Dr         : Maximum Displacement
   // Vmax       : Maximum Volume Change
   // Succ       : Optimal Percentance Of Accepted Attemps
@@ -60,7 +61,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
   fileptr=fopen("input.settings","r");
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
-  sscanf(line,"%d %d %d %d",&BoxIDeg,Equil,Prod,Nsamp);
+  sscanf(line,"%d %d %d %d",&BoxIDeg,Equil,Prod,Nsamp,Nprint);
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%lf %lf %lf",Dr,Vmax,Succ);
@@ -113,8 +114,15 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,double *Dr,int *Nvol,do
   
   //  ---Write Input Data
   
-  printf("Number Of Equilibration Cycles             : %d,\nNumber Of Production Cycles                : %d\nSample Frequency                           :%d\n", *Equil,*Prod,*Nsamp);
-  printf("Number Of Att. To Displ. a Part. per Cycle : %d\nMaximum Displacement                       : %lf\nNumber Of Att. to Change Volume  per Cycle : %d\nMaximum Change Volume                      : %lf\nNumber Of Att. to Exch Part.per Cycle    : %d\n",*Ndispl,*Dr,*Nvol,*Vmax,*Nswap);
+  printf("Number Of Equilibration Cycles             : %d\n", *Equil);
+  printf("Number Of Production Cycles                : %d\n", *Prod);
+  printf("Sample Frequency                           : %d\n", *Nsamp);
+  printf("Movie Printing Frequency                   : %d\n", *Nprint);
+  printf("Number Of Att. To Displ. a Part. per Cycle : %d\n", *Ndispl);
+  printf("Maximum Displacement                       : %lf\n" ,*Dr);
+  printf("Number Of Att. to Change Volume  per Cycle : %d\n", *Nvol);
+  printf("Maximum Change Volume                      : %lf\n", *Vmax);
+  printf("Number Of Att. to Exch Part.per Cycle      : %d\n", *Nswap);
   printf("Number Of Particles: %d\n",Npart);  
   printf("Temperature: %lf\n",Temp);  
   printf("Pressure: %lf\n",0.0);  

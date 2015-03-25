@@ -16,12 +16,13 @@ int Ichp[2];
 int main()
 {
   //    ---Gibbs-Ensemble Simulation Of The Lennard-Joned Fluid
-  int  Equil, Prod, Nsamp, I, Icycl, Ndispl, Attempt; 
+  int  Equil, Prod, Nsamp, Nprint, I, Icycl, Ndispl, Attempt; 
   int  Nacc, Ncycl, Nmoves, Imove, Nvol, AcceptVolume; 
   int  AttemptVolume, BoxID, Nswap, AcceptSwap, AttemptSwap;
   double En[2], Ent[2], Vir[2], Virt[2], Vmax, Dr; 
   double Ran, Succ;
-  FILE* Fileptr;
+  FILE *Fileptr;
+  FILE *FileptrBox0, *FileptrBox1;
   
   // initialize the random number generator with the system time
   InitializeRandomNumberGenerator(time(0l));
@@ -30,7 +31,7 @@ int main()
   
   //    ---Initialize System
   printf("\nSYSTEM INITIALIZATION\n");
-  Readdat(&Equil, &Prod, &Nsamp, &Ndispl, &Dr, &Nvol, &Vmax, &Nswap, &Succ);
+  Readdat(&Equil, &Prod, &Nsamp, &Nprint, &Ndispl, &Dr, &Nvol, &Vmax, &Nswap, &Succ);
   Nmoves = Ndispl + Nvol + Nswap;
   
   //    ---Total Energy Of The System
@@ -43,7 +44,6 @@ int main()
     }
 
   //    ---Start MC Cycle
-  
   for(I=1;I<3;I++)
     {
       //       --- I=1 Equilibration
@@ -180,5 +180,6 @@ int main()
   Fileptr=fopen("output.lj.restart","w");
   Store(Fileptr, Dr, Vmax);
   fclose(Fileptr);
+
   return(0);
 }

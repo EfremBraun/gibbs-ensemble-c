@@ -187,7 +187,8 @@ int main()
   Store(Fileptr, Dr, Vmax);
   fclose(Fileptr);
 
-  // Close movie pdb files
+  // Print movie PDB at end, then close movie pdb files
+  WritePdb(FileptrBox0, FileptrBox1);
   fclose(FileptrBox0);
   fclose(FileptrBox1);
 

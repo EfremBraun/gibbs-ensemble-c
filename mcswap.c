@@ -47,7 +47,7 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
   
   Eneri(Xn, Yn, Zn, IndexAdd, Jb, &Enn, &Virn, Iadd);
   
-  // ---Calculate Contibution To The Chemical Potential: // Note to Efrem: We shouldn't be doing this until after the equilibration cycles have finished
+  // ---Calculate Contibution To The Chemical Potential:
   Arg = -Beta*Enn;
   Chp[Iadd] = Chp[Iadd] + Vola*exp(Arg)/(double)(Npbox[Iadd]+1);
   Ichp[Iadd]++;

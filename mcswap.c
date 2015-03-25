@@ -50,10 +50,6 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
   // ---Calculate Contibution To The Chemical Potential: // Note to Efrem: We shouldn't be doing this until after the equilibration cycles have finished
   Arg = -Beta*Enn;
   Chp[Iadd] = Chp[Iadd] + Vola*exp(Arg)/(double)(Npbox[Iadd]+1);
-  if(Npbox[Iadd]==Npart) 
-    {
-      Chp[Iadd]+=Vola*exp(Arg)/(double)(Npbox[Iadd]+1); // Note to Efrem: this is redundant from 3 lines up and messes up the averaging because Ichp doesn't change too
-    }
   Ichp[Iadd]++;
   
   // ---Delete Particle From Box B:  

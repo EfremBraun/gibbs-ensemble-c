@@ -6,7 +6,6 @@
 #include "potential.h"
 #include "conf.h"
 
-
 void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr,int *Nvol,double *Vmax,int *Nswap,double *Succ)
 {
   // Reads Input Data And Model Parameters
@@ -54,7 +53,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   // X(Npart),Y(Npart),Z(Npart): Position Particle Last Particle
 
   int BoxIDeg, I,BoxID;
-  double Eps, Sig, Rho, Rcc;
+  double Eps, Rho, Rcc;
   FILE* fileptr;
   char line[500];
   
@@ -82,7 +81,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   fileptr=fopen("input.lj.model","r");
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
-  sscanf(line,"%lf %lf %lf %lf",&Eps,&Sig,&Mass,&Rcc);      
+  sscanf(line,"%lf %lf %lf %lf",&Eps,&Sig,&Mass,&Rcc);
   fclose(fileptr);
 
   //  ---Read/Generate Configuration

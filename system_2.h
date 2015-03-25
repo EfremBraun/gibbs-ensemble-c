@@ -10,6 +10,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,int *Nprint,double *Dr,
 void Sample(int I,double *En,double *Vir);
 void Store(FILE* Iout,double Dr,double Vmax);
 void Toterg(double *Ener,double *Vir,int BoxID);
+void WritePdb(FILE *FilePtrBox0, FILE *FilePtrBox1);
 
 //extern double /Sys1/,Box[2],Hbox[2],Temp,Beta;
 //C

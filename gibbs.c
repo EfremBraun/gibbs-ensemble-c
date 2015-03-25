@@ -43,6 +43,10 @@ int main()
       printf("Total Virial Initial Configuration: %lf\n",Vir[BoxID]);
     }
 
+  // Open movie pdb files
+  FileptrBox0=fopen("movie-box0.pdb","w");
+  FileptrBox1=fopen("movie-box1.pdb","w");
+
   //    ---Start MC Cycle
   for(I=1;I<3;I++)
     {
@@ -98,6 +102,8 @@ int main()
             {  
 	      //             ---Sample Averages
 	      if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir);
+              //             ---Print Movie PDB
+              if((Icycl%Nprint)==0) WritePdb(FileptrBox0, FileptrBox1);
             }
 	  if((Icycl%(Ncycl/10))==0)
             {
@@ -180,6 +186,10 @@ int main()
   Fileptr=fopen("output.lj.restart","w");
   Store(Fileptr, Dr, Vmax);
   fclose(Fileptr);
+
+  // Close movie pdb files
+  fclose(FileptrBox0);
+  fclose(FileptrBox1);
 
   return(0);
 }

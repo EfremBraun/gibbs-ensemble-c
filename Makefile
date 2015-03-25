@@ -28,8 +28,8 @@ OBJS	      =	adjust.o      \
 		readdat.o     \
 		sample.o      \
 		store.o       \
-		toterg.o
-#		sstmm.o       \
+		toterg.o      \
+		writepdb.o
 
 all:		$(PROGRAM)
 

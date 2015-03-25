@@ -61,7 +61,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   fileptr=fopen("input.settings","r");
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
-  sscanf(line,"%d %d %d %d",&BoxIDeg,Equil,Prod,Nsamp,Nprint);
+  sscanf(line,"%d %d %d %d %d",&BoxIDeg,Equil,Prod,Nsamp,Nprint);
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%lf %lf %lf",Dr,Vmax,Succ);

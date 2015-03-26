@@ -117,7 +117,9 @@ int main()
         fclose(Fileptr);
         for(BoxID=0;BoxID<2;BoxID++)
         {
-          printf("Density: %g\n",(double)Npbox[BoxID]/pow(Box[BoxID],3.));
+          printf("Box %d: Density: %g\n", BoxID+1, (double)Npbox[BoxID]/pow(Box[BoxID],3.));
+          printf("Box %d: Number Particles: %d\n", BoxID+1, Npbox[BoxID]);
+          printf("Box %d: Volume: %g\n", BoxID+1, pow(Box[BoxID],3.));
         }
 
         //             ---Adjust Maximum Displacements

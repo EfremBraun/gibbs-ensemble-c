@@ -9,6 +9,7 @@ int Mcswap(double En[2], double Vir[2],  int *Attempt, int *Acc);
 void Readdat(int *Equil,int *Prod,int *Nsamp,int *Ndispl,int *Nprint,double *Dr,int *Nvol,double *Vmax,int *Nswap,double *Succ);
 void Sample(int I,double *En,double *Vir);
 void Store(FILE* Iout,double Dr,double Vmax);
+double TailC(int BoxID);
 void Toterg(double *Ener,double *Vir,int BoxID);
 void WritePdb(FILE *FilePtrBox0, FILE *FilePtrBox1);
 

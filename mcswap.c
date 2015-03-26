@@ -4,16 +4,18 @@
 #include <math.h>
 #include "system.h"
 #include "ran_uniform.h"
-#include "conf.h"  
-#include "chem.h"  
+#include "conf.h"
+#include "chem.h"
+#include "system_2.h"
 
 int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
 {
   // ---Exchange A Particle Bewteen The Two Boxes
   
-  double Xn, Yn, Zn, Enn, Virn, Eno, Viro; 
+  double Xn, Yn, Zn, Enn, Virn, Eno, Viro, Tail; 
   double Arg, Vola, Vold; 
   double Xo, Yo, Zo, Dele;
+  double DelTail[2];
   int IndexAdd, Iadd, Idel, Jb, Idi;
   
   (*Attempt)++;
@@ -48,8 +50,16 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
   Eneri(Xn, Yn, Zn, IndexAdd, Jb, &Enn, &Virn, Iadd);
   
   // ---Calculate Contibution To The Chemical Potential:
-  Arg = -Beta*Enn;
-  Chp[Iadd] = Chp[Iadd] + Vola*exp(Arg)/(double)(Npbox[Iadd]+1);
+  if (TruncFlag==0)
+  {
+    Tail = TailC(Iadd) * (double) (Npbox[Iadd]+1);
+    Arg = -Beta*(Enn+Tail);
+  }
+  else if (TruncFlag==1)
+  {
+    Arg = -Beta*Enn;
+  }
+  Chp[Iadd] = Chp[Iadd] * ((double) Ichp[Iadd] / (double) (Ichp[Iadd]+1)) + Vola*exp(Arg)/(double)(Npbox[Iadd]+1) / (double) (Ichp[Iadd]+1);
   Ichp[Iadd]++;
   
   // ---Delete Particle From Box B:  
@@ -71,6 +81,12 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
   // ---Acceptance Test:
   Dele = Enn - Eno + log(Vold*(double)((Npbox[Iadd]+1))/
 			 (Vola*(double)(Npbox[Idel])))/Beta;
+  if (TruncFlag==0)
+  {
+    DelTail[Iadd] = TailC(Iadd) * (((double) (Npbox[Iadd]+1) * (double) (Npbox[Iadd]+1)) - ((double) Npbox[Iadd] * (double) Npbox[Iadd]));
+    DelTail[Idel] = TailC(Idel) * (((double) (Npbox[Idel]-1) * (double) (Npbox[Idel]-1)) - ((double) Npbox[Idel] * (double) Npbox[Idel]));
+    Dele = Dele + DelTail[Iadd] + DelTail[Idel];
+  }
   
   if(RandomNumber()<exp(-Beta*Dele))
     { 
@@ -86,6 +102,11 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
       Npbox[Idel]--;
       En[Idel]-= Eno;
       Vir[Idel]-= Viro;
+      if (TruncFlag==0)
+      {
+        En[Iadd]+= DelTail[Iadd];
+        En[Idel]+= DelTail[Idel];
+      }
     }
   return(0);
 }

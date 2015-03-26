@@ -26,7 +26,7 @@ int Init_Chem(int Switch)
 	{
 	  if(Ichp[BoxID]!=0)
 	    {
-	      Chp[BoxID] = -log(Chp[BoxID]/(double)(Ichp[BoxID]))/Beta;
+	      Chp[BoxID] = -log(Chp[BoxID])/Beta;
 	    }
 	}
       printf("------------------- \n");

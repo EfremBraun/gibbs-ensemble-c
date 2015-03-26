@@ -5,12 +5,13 @@
 #include "system.h"
 #include "conf.h"
 #include "potential.h"
+#include "system_2.h"
 
 void Toterg(double *Ener,double *Vir,int BoxID)
 {
   //     ---Calculates Total Energy
   
-  double Xi, Yi, Zi, Eni, Viri, Rc3i, Tail;
+  double Xi, Yi, Zi, Eni, Viri, Tail;
   int I, Jb;
   
   *Ener = 0.0;
@@ -32,11 +33,10 @@ void Toterg(double *Ener,double *Vir,int BoxID)
   // Add tail corrections
   if (TruncFlag==0)
   {
-    Rc3i = pow(Sig/Rc[BoxID], 3.0);
-    Tail = 2.0/3.0 * M_PI * Npbox[BoxID] / pow(Box[BoxID], 3.0)  * Eps4 * (pow(Rc3i, 3.0) / 3.0 - Rc3i);
-    //printf("Tail is %f\n", Tail); // For testing purposes; can compare to value on page 37 of Frenkel&Smit
+    Tail = TailC(BoxID) * (double) Npbox[BoxID] * (double) Npbox[BoxID];
+    //printf("Tail is %f\n", Tail / (double) Npbox[BoxID]); // For testing purposes; can compare to value on page 37 of Frenkel&Smit
     *Ener = *Ener + Tail;
-    // Note to Efrem: need to add tail corrections to the pressure too
+    // Note to Efrem: need to add tail corrections to the pressure too, but only important for printing
   }
 
   return;

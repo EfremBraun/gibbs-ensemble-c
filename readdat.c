@@ -70,6 +70,9 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%d %lf %lf",&Npart,&Temp,&Rho);
+  fgets(line,300,fileptr);
+  fgets(line,300,fileptr);
+  sscanf(line,"%d",&TruncFlag);
   fclose(fileptr);
   if(Npart>Npmax)
     {
@@ -129,6 +132,8 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   printf("Box 1 Length: %lf\n",Box[0]);  
   printf("Density Box 2: %lf\n",(double)(Npbox[1])/pow(Box[1],3));  
   printf("Box 2 Length: %lf\n",Box[1]);  
+  if (TruncFlag==0) printf("Potential is: Truncated and Tail-Corrected\n");  
+  else if (TruncFlag==1) printf("Potential is: Truncated and Shifted\n");  
   printf("Model Parameters\n");
   printf("Epsilon: %lf\n",Eps);  
   printf("Sigma: %lf\n",Sig);

@@ -9,14 +9,14 @@ void Sample(int I,double *En,double *Vir)
 {
   //C     Writes Quantities To File
   int BoxID;
-  double Enp[2], Press[2], Vol, Rho[2];
+  double Enp[2], Press[2], Vol[2], Rho[2];
   FILE* fileptr;
   
   for(BoxID = 0; BoxID<2;BoxID++)
     {
-      Vol = pow(Box[BoxID],3);
-      Rho[BoxID] = (double)(Npbox[BoxID])/Vol;
-      Press[BoxID] = Rho[BoxID]/Beta + Vir[BoxID]/(3.0*Vol);
+      Vol[BoxID] = pow(Box[BoxID],3);
+      Rho[BoxID] = (double)(Npbox[BoxID])/Vol[BoxID];
+      Press[BoxID] = Rho[BoxID]/Beta + Vir[BoxID]/(3.0*Vol[BoxID]);
          
       if (Npbox[BoxID]!=0)
 	{
@@ -29,7 +29,7 @@ void Sample(int I,double *En,double *Vir)
     }
   
   fileptr=fopen("output.lj.prt","a");
-  fprintf(fileptr,"%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n",I, Enp[0],Enp[1],Press[0],Press[1],Rho[0],Rho[1]);
+  fprintf(fileptr,"%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%d\t%d\t%lf\t%lf\n",I, Enp[0],Enp[1],Press[0],Press[1],Rho[0],Rho[1],Npbox[0],Npbox[1],Vol[0],Vol[1]);
   fclose(fileptr);
   return;
 }

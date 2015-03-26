@@ -108,8 +108,7 @@ int main()
       if((Icycl%Nprint)==0) WritePdb(FileptrBox0, FileptrBox1);
       if((Icycl%(Ncycl/10))==0)
       {
-        printf("======>> Done %d out of %d %d %d\n", Icycl, Ncycl,
-               Npbox[0], Npbox[1]);
+        printf("======>> Done %d out of %d\n", Icycl, Ncycl);
         
         //             ---Write Intermediate Configuration To File
         Fileptr=fopen("output.lj.restart","w");

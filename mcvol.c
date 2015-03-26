@@ -53,7 +53,8 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
    for(BoxID=0;BoxID<2;BoxID++)
      {
        Toterg(&(Enn[BoxID]),&(Virn[BoxID]),BoxID);
-// What follows is the old way of doing it that is not correct if you don't change r_cutoff or if you're doing modified Gibbs ensemble
+// What follows is the old way of doing it that is only correct 
+// if you scale the cutoff radius (see Frenkel&Smit page 224)
 //       Enold = En[BoxID];
 //       Yy = pow((Volo[BoxID]/Voln[BoxID]),2);
 //       Enn[BoxID] = Enold*Yy*(2.0-Yy) - 

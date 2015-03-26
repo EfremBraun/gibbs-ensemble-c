@@ -111,7 +111,7 @@ int main()
                Npbox[0], Npbox[1]);
         
         //             ---Write Intermediate Configuration To File
-        Fileptr=fopen("output.lj.restart.int","w");
+        Fileptr=fopen("output.lj.restart","w");
         Store(Fileptr, Dr, Vmax);
         fclose(Fileptr);
         for(BoxID=0;BoxID<2;BoxID++)

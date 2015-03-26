@@ -39,4 +39,4 @@ $(PROGRAM)::	$(INCS)
 $(PROGRAM)::	$(OBJS) $(MAKEFILE)
 		@$(LD) $(CFLAGS) $(OBJS) -o $(PROGRAM) $(LIBS)
 
-clean:;		@rm -f $(OBJS) core
+clean:;		@rm -f $(OBJS) $(PROGRAM) core

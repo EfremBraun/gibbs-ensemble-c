@@ -11,10 +11,9 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
 {
   //  Attempts To Change The Volume
 
-  double Enn[2], Virn[2], Yy; 
+  double Enn[2], Virn[2];
   double F[2], Arg, Volo[2], Volt, Dlnv; 
   double Voln[2], Dele1, Dele2, Dlnv1, Dlnv2; 
-  double Enold;
   int I, BoxID, Idi;
   
   (*Attempt)++;
@@ -49,18 +48,10 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
        Z[I] = F[Idi]*Z[I];
      }
    
-   //    ---Calculate New Energy Using Scaling //
+   //    ---Calculate New Energy
    for(BoxID=0;BoxID<2;BoxID++)
      {
        Toterg(&(Enn[BoxID]),&(Virn[BoxID]),BoxID);
-// What follows is the old way of doing it that is only correct 
-// if you scale the cutoff radius (see Frenkel&Smit page 224)
-//       Enold = En[BoxID];
-//       Yy = pow((Volo[BoxID]/Voln[BoxID]),2);
-//       Enn[BoxID] = Enold*Yy*(2.0-Yy) - 
-//	 Vir[BoxID]*Yy*(1.0-Yy)/6.0;
-//       Virn[BoxID] = -12.0*Enold*Yy*(Yy-1.0) + 
-//	 Vir[BoxID]*Yy*(2.0*Yy-1.0);
      }
       
    // ---Acceptance:

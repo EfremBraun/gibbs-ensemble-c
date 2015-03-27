@@ -121,7 +121,7 @@ int main()
         printf("======>> Done %d out of %d\n", Icycl, Ncycl);
         
         //             ---Write Intermediate Configuration To File
-        Fileptr=fopen("output.lj.restart","w");
+        Fileptr=fopen("output.restart","w");
         Store(Fileptr, Dr, Vmax);
         fclose(Fileptr);
         for(BoxID=0;BoxID<2;BoxID++)

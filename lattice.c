@@ -8,7 +8,7 @@
 int Lattice(void)
 {
   // ---Place `Npart' Particles On A Lattice With Density 'Rho'
-  // --Half The Number In Box 1 And The Other Half In Box 2
+  // --Half The Number In Box 0 And The Other Half In Box 1
   
   int I, J, K, Itel, N, BoxID;
   double Del;

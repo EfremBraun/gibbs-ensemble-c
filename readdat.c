@@ -38,18 +38,18 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   
   //  ---Input Parameters: File: output.lj.restart (Restart File
   //             To Continue A Simulation From Disk)
-  // Box(1)   = Length Box 1 Old Configuration
-  // Hbox(1)  = Box(1)/2
-  // Box(2)   = Length Box 2 Old Configuration
-  // Hbox(2)  = Box(2)/2
+  // Box[0]   = Length Box 0 Old Configuration
+  // Hbox[0]  = Box[0]/2
+  // Box[1]   = Length Box 1 Old Configuration
+  // Hbox[1]  = Box[1]/2
   // Npart    = Total Number Of Particles (overrules input.settings!!)
-  // Npbox(1) = Number Of Particles In Box 1
-  // Npbox(2) = Number Of Particles In Box 2
+  // Npbox[0] = Number Of Particles In Box 0
+  // Npbox[1] = Number Of Particles In Box 1
   // Dr     = Optimized Maximum Displacement Old Configurations
   // Vmax   = Optimized Maximum Volume Change Old Configurations
-  // X(1),Y(1),Z(1)            : Position First Particle 1
-  //               ,Id(1)   = 1 Particle In Box 1
-  //               ,Id(1)   = 2 Particle In Box 2
+  // X[0],Y[0],Z[0]            : Position First Particle
+  //               ,Id(i)   = 0 if Particle i In Box 0
+  //               ,Id(i)   = 1 if Particle i In Box 1
   //    ....
   // X(Npart),Y(Npart),Z(Npart): Position Particle Last Particle
 
@@ -132,10 +132,10 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   printf("Number Of Particles: %d\n",Npart);  
   printf("Temperature: %lf\n",Temp);  
   printf("Pressure: %lf\n",0.0);  
-  printf("Density Box 1: %lf\n",(double)(Npbox[0])/pow(Box[0],3));  
-  printf("Box 1 Length: %lf\n",Box[0]);  
-  printf("Density Box 2: %lf\n",(double)(Npbox[1])/pow(Box[1],3));  
-  printf("Box 2 Length: %lf\n",Box[1]);  
+  printf("Density Box 0: %lf\n",(double)(Npbox[0])/pow(Box[0],3));  
+  printf("Box 0 Length: %lf\n",Box[0]);  
+  printf("Density Box 1: %lf\n",(double)(Npbox[1])/pow(Box[1],3));  
+  printf("Box 1 Length: %lf\n",Box[1]);  
   if (TruncFlag==0) printf("Potential is: Truncated and Tail-Corrected\n");  
   else if (TruncFlag==1) printf("Potential is: Truncated and Shifted\n");  
   printf("Model Parameters\n");

@@ -1,6 +1,6 @@
 #include "system_2.h"
-extern double Box[2],Hbox[2],Temp,Beta;
-extern int TruncFlag;
+extern double Box[2],Hbox[2],Temp,Beta,DvMod;
+extern int TruncFlag, ModGibbsFlag;
 
 //extern double /Sys1/,Box[2],Hbox[2],Temp,Beta;
 //C

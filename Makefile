@@ -24,6 +24,7 @@ OBJS	      =	adjust.o      \
 		mcmove.o      \
 		mcswap.o      \
 		mcvol.o       \
+		mcvolmod.o    \
 		ran_uniform.o \
 		readdat.o     \
 		sample.o      \

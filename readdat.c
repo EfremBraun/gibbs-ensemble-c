@@ -11,23 +11,24 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   // Reads Input Data And Model Parameters
   //
   // ---Input Parameters: File: input.settings
-  // BoxIDeg  =  0 : Initilaize From A Lattice
-  //          1 : Read Configuration From Disk
-  // Equil      : Number Of Monte Carlo Cycles During Equilibration
-  // Prod       : Number Of Monte Carlo Cycles During Production
-  // Nsamp      : Number Of Monte Carlo Cycles Between Two Sampling Periods
-  // Nprint     : Number Of Monte Carlo Cycles Between Printing of Movie PDBs
-  // Dr         : Maximum Displacement
-  // Vmax       : Maximum Volume Change
-  // Succ       : Optimal Percentance Of Accepted Attemps
-  //              The Program Adjusts Vmax Or Dr In Just A Way That
-  //              On Average Succ% Of The Moves Are Accepted
-  // Ndispl     : Number Of Attemps To Displace A Particle Per Mc Cycle
-  // Nvol       : Number Of Attemps To Change The Volume  Per Mc Cycle
-  // Nswap      : Number Of Attemps To Swap Particle Between The Two Boxes Per Mc Cycle
-  // Npart      : Total Number of Particles
-  // Temp       : Temperature
-  // Rho        : Density
+  // BoxIDeg       : 0 to Initilaize From A Lattice, 1 to Read Configuration From Disk
+  // Equil         : Number Of Monte Carlo Cycles During Equilibration
+  // Prod          : Number Of Monte Carlo Cycles During Production
+  // Nsamp         : Number Of Monte Carlo Cycles Between Two Sampling Periods
+  // Nprint        : Number Of Monte Carlo Cycles Between Printing of Movie PDBs
+  // Dr            : Maximum Displacement
+  // Vmax          : Maximum Volume Change
+  // Succ          : Optimal Percentance Of Accepted Attemps
+  //                 The Program Adjusts Vmax Or Dr In Just A Way That
+  //                 On Average Succ% Of The Moves Are Accepted
+  // Ndispl        : Number Of Attemps To Displace A Particle Per Mc Cycle
+  // Nvol          : Number Of Attemps To Change The Volume  Per Mc Cycle
+  // Nswap         : Number Of Attemps To Swap Particle Between The Two Boxes Per Mc Cycle
+  // Npart         : Total Number of Particles
+  // Temp          : Temperature
+  // Rho           : Density
+  // TruncFlag     : 0 to do truncated with tail corrections, 1 to do truncated and shifted
+  // ModGibbsFlag  : 0 to do normal Gibbs Ensemble, 1 to do modified Gibbs Ensemble
   
   //  ---Input Parameters: File: input.lj.model
   // Eps    = Epsilon Lennard-Jones Potential
@@ -73,6 +74,9 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%d",&TruncFlag);
+  fgets(line,300,fileptr);
+  fgets(line,300,fileptr);
+  sscanf(line,"%d",&ModGibbsFlag);
   fclose(fileptr);
   if(Npart>Npmax)
     {
@@ -145,6 +149,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   Eps4  = 4.0*Eps;
   Eps48 = 48.*Eps;
   Sig2  = Sig*Sig;
+  DvMod = 1.0 / Rho;
   
   //  ---Calculate Cut-Off Radius Potential
   

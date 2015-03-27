@@ -24,6 +24,7 @@ int main()
   double Ran, Succ;
   FILE *Fileptr;
   FILE *FileptrBox0, *FileptrBox1;
+  FILE *FileptrSampleEq, *FileptrSampleProd;
   
   // initialize the random number generator with the system time
   InitializeRandomNumberGenerator(time(0l));
@@ -44,9 +45,13 @@ int main()
     printf("Total Virial Initial Configuration: %lf\n",Vir[BoxID]);
   }
 
-  // Open movie pdb files
+  // Open movie pdb files and sampling files, print header to sampling files
   FileptrBox0=fopen("movie-box0.pdb","w");
   FileptrBox1=fopen("movie-box1.pdb","w");
+  FileptrSampleEq=  fopen("output.sample.eq","w");
+  FileptrSampleProd=fopen("output.sample.prod","w");
+  fprintf(FileptrSampleEq,   "  Cycle       Enp0       Enp1     Press0     Press1       Rho0       Rho1    Np0    Np1       Vol0       Vol1\n");
+  fprintf(FileptrSampleProd, "  Cycle       Enp0       Enp1     Press0     Press1       Rho0       Rho1    Np0    Np1       Vol0       Vol1\n");
 
   //    ---Start MC Cycle
   for(I=1;I<3;I++)
@@ -100,10 +105,14 @@ int main()
           Mcswap(En, Vir, &AttemptSwap, &AcceptSwap);
         }
       }
+      //             ---Sample Averages
+      if(I==1)
+      {  
+        if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir, FileptrSampleEq);
+      }
       if(I==2)
       {  
-        //             ---Sample Averages
-        if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir);
+        if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir, FileptrSampleProd);
       }
       //             ---Print Movie PDB
       if((Icycl%Nprint)==0) WritePdb(FileptrBox0, FileptrBox1);
@@ -190,10 +199,12 @@ int main()
   Store(Fileptr, Dr, Vmax);
   fclose(Fileptr);
 
-  // Print movie PDB at end, then close movie pdb files
+  // Print movie PDB at end, then close files
   WritePdb(FileptrBox0, FileptrBox1);
   fclose(FileptrBox0);
   fclose(FileptrBox1);
+  fclose(FileptrSampleEq);
+  fclose(FileptrSampleProd);
 
   return(0);
 }

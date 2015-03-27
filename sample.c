@@ -5,12 +5,11 @@
 #include "conf.h"
 #include "system.h"
 
-void Sample(int I,double *En,double *Vir)
+void Sample(int I,double *En,double *Vir, FILE *FilePtr)
 {
   //C     Writes Quantities To File
   int BoxID;
   double Enp[2], Press[2], Vol[2], Rho[2];
-  FILE* fileptr;
   
   for(BoxID = 0; BoxID<2;BoxID++)
     {
@@ -28,8 +27,6 @@ void Sample(int I,double *En,double *Vir)
 	}
     }
   
-  fileptr=fopen("output.lj.prt","a");
-  fprintf(fileptr,"%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%d\t%d\t%lf\t%lf\n",I, Enp[0],Enp[1],Press[0],Press[1],Rho[0],Rho[1],Npbox[0],Npbox[1],Vol[0],Vol[1]);
-  fclose(fileptr);
+  fprintf(FilePtr,"%7d%11.6lf%11.6lf%11.6lf%11.6lf%11.6lf%11.6lf%7d%7d%11.3lf%11.3lf\n",I, Enp[0],Enp[1],Press[0],Press[1],Rho[0],Rho[1],Npbox[0],Npbox[1],Vol[0],Vol[1]);
   return;
 }

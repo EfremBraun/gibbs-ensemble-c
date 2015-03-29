@@ -53,6 +53,9 @@ int main()
   fprintf(FileptrSampleEq,   "  Cycle       Enp0       Enp1     Press0     Press1       Rho0       Rho1    Np0    Np1       Vol0       Vol1\n");
   fprintf(FileptrSampleProd, "  Cycle       Enp0       Enp1     Press0     Press1       Rho0       Rho1    Np0    Np1       Vol0       Vol1\n");
 
+  //             ---Print Movie PDB
+  WritePdb(FileptrBox0, FileptrBox1);
+
   //    ---Start MC Cycle
   for(I=1;I<3;I++)
   {
@@ -195,7 +198,7 @@ int main()
       Init_Chem(2);
     }
   }
-  Fileptr=fopen("output.lj.restart","w");
+  Fileptr=fopen("output.restart","w");
   Store(Fileptr, Dr, Vmax);
   fclose(Fileptr);
 

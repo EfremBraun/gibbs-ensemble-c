@@ -11,7 +11,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   // Reads Input Data And Model Parameters
   //
   // ---Input Parameters: File: input.settings
-  // BoxIDeg       : 0 to Initilaize From A Lattice, 1 to Read Configuration From Disk
+  // BoxInitFlag       : 0 to Initilaize From A Lattice, 1 to Read Configuration From Disk
   // Equil         : Number Of Monte Carlo Cycles During Equilibration
   // Prod          : Number Of Monte Carlo Cycles During Production
   // Nsamp         : Number Of Monte Carlo Cycles Between Two Sampling Periods
@@ -36,7 +36,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   // Mass   = Mass Of The Particle
   // Rcc    = Cut-Off Radius Of The Potential
   
-  //  ---Input Parameters: File: output.lj.restart (Restart File
+  //  ---Input Parameters: File: output.restart (Restart File
   //             To Continue A Simulation From Disk)
   // Box[0]   = Length Box 0 Old Configuration
   // Hbox[0]  = Box[0]/2
@@ -53,15 +53,16 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   //    ....
   // X(Npart),Y(Npart),Z(Npart): Position Particle Last Particle
 
-  int BoxIDeg, I,BoxID;
-  double Eps, Rho, Rcc;
+  int BoxInitFlag, I,BoxID;
+  double Eps, Rcc;
+  double Vol0, Vol1;
   FILE* fileptr;
   char line[500];
   
   fileptr=fopen("input.settings","r");
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
-  sscanf(line,"%d %d %d %d %d",&BoxIDeg,Equil,Prod,Nsamp,Nprint);
+  sscanf(line,"%d %d %d %d",Equil,Prod,Nsamp,Nprint);
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%lf %lf %lf",Dr,Vmax,Succ);
@@ -70,7 +71,13 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   sscanf(line,"%d %d %d",Ndispl,Nvol,Nswap);
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
-  sscanf(line,"%d %lf %lf",&Npart,&Temp,&Rho);
+  sscanf(line,"%d %lf %d %lf",&Npbox[0],&Vol0,&Npbox[1],&Vol1);
+  fgets(line,300,fileptr);
+  fgets(line,300,fileptr);
+  sscanf(line,"%lf",&Temp);
+  fgets(line,300,fileptr);
+  fgets(line,300,fileptr);
+  sscanf(line,"%d",&BoxInitFlag);
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
   sscanf(line,"%d",&TruncFlag);
@@ -78,6 +85,9 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   fgets(line,300,fileptr);
   sscanf(line,"%d",&ModGibbsFlag);
   fclose(fileptr);
+
+  Npart = Npbox[0] + Npbox[1];
+
   if(Npart>Npmax)
     {
       printf("Error: Number Of Particles Too Large\n");
@@ -92,22 +102,20 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   fclose(fileptr);
 
   //  ---Read/Generate Configuration
-  
-  Box[0]  = pow(((double)(Npart)/(2.*Rho)),(1.0/3.0));
+  Box[0]  = pow(Vol0,(1.0/3.0));
   Hbox[0] = 0.5*Box[0];
-  Box[1]  = Box[0];
+  Box[1]  = pow(Vol1,(1.0/3.0));
   Hbox[1] = Hbox[0];
   
-  if(BoxIDeg==0)
+  if(BoxInitFlag==0)
     {
-      
       //     ---Generate Configuration Form Lattice
       Lattice();
     }
   else
     {
       printf("Read Conf From Disk\n");
-      fileptr=fopen("output.lj.restart","r");
+      fileptr=fopen("output.restart","r");
       fscanf(fileptr,"%lf %lf %lf %lf",&(Box[0]), &(Hbox[0]), &(Box[1]), &(Hbox[1]));
       fscanf(fileptr,"%d %d %d",&Npart, &(Npbox[0]), &(Npbox[1]));
       fscanf(fileptr,"%lf %lf",Dr,Vmax);
@@ -119,7 +127,6 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
     }
   
   //  ---Write Input Data
-  
   printf("Number Of Equilibration Cycles             : %d\n", *Equil);
   printf("Number Of Production Cycles                : %d\n", *Prod);
   printf("Sample Frequency                           : %d\n", *Nsamp);
@@ -129,13 +136,16 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   printf("Number Of Att. to Change Volume  per Cycle : %d\n", *Nvol);
   printf("Maximum Change Volume                      : %lf\n", *Vmax);
   printf("Number Of Att. to Exch Part.per Cycle      : %d\n", *Nswap);
-  printf("Number Of Particles: %d\n",Npart);  
+  printf("Number Of Particles in Box 0: %d\n",Npbox[0]);  
+  printf("Volume of Box 0: %lf\n",Vol0);  
+  printf("Box 0 Length: %lf\n",Box[0]);  
+  printf("Density Box 0: %lf\n",(double)(Npbox[0])/pow(Box[0],3));  
+  printf("Number Of Particles in Box 1: %d\n",Npbox[1]);  
+  printf("Volume of Box 1: %lf\n",Vol1);  
+  printf("Box 1 Length: %lf\n",Box[1]);  
+  printf("Density Box 1: %lf\n",(double)(Npbox[1])/pow(Box[1],3));  
   printf("Temperature: %lf\n",Temp);  
   printf("Pressure: %lf\n",0.0);  
-  printf("Density Box 0: %lf\n",(double)(Npbox[0])/pow(Box[0],3));  
-  printf("Box 0 Length: %lf\n",Box[0]);  
-  printf("Density Box 1: %lf\n",(double)(Npbox[1])/pow(Box[1],3));  
-  printf("Box 1 Length: %lf\n",Box[1]);  
   if (TruncFlag==0) printf("Potential is: Truncated and Tail-Corrected\n");  
   else if (TruncFlag==1) printf("Potential is: Truncated and Shifted\n");  
   printf("Model Parameters\n");
@@ -144,15 +154,13 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   printf("Mass: %lf\n",Mass);
   
   //  ---Calculate Parameters:
-  
   Beta  = 1.0/Temp;
   Eps4  = 4.0*Eps;
   Eps48 = 48.*Eps;
   Sig2  = Sig*Sig;
-  DvMod = 1.0 / Rho;
+  DvMod = (Vol0+Vol1) / (double) Npart;
   
   //  ---Calculate Cut-Off Radius Potential
-  
   for(BoxID = 0;BoxID< 2;BoxID++)
     {
       if(Rcc<Hbox[BoxID])

@@ -52,7 +52,7 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
   // ---Calculate Contibution To The Chemical Potential:
   if (TruncFlag==0)
   {
-    Tail = TailC(Iadd) * (double) (Npbox[Iadd]+1);
+    Tail = TailC(Iadd) * (double) (Npbox[Iadd]+1); // Note to Efrem: I don't think this tail contribution to the chemical potential is right. See page 174 of Berend's book.
     Arg = -Beta*(Enn+Tail);
   }
   else if (TruncFlag==1)

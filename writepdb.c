@@ -26,12 +26,12 @@ void WritePdb(FILE *FilePtrBox0, FILE *FilePtrBox1)
     Countatom++;
     if (Id[I] == 0)
     {
-      fprintf(FilePtrBox0,"ATOM%7d  H              %8.3lf%8.3lf%8.3lf                          H\n",
+      fprintf(FilePtrBox0,"ATOM%7d  H              %8.3lf%8.3lf%8.3lf                         H\n",
         Countatom, X[I], Y[I], Z[I]);
     }
     if (Id[I] == 1)
     {
-      fprintf(FilePtrBox1,"ATOM%7d  H              %8.3lf%8.3lf%8.3lf                          H\n",
+      fprintf(FilePtrBox1,"ATOM%7d  H              %8.3lf%8.3lf%8.3lf                         H\n",
         Countatom, X[I], Y[I], Z[I]);
     }
   }

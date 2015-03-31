@@ -34,7 +34,7 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
        Hbox[BoxID] = Box[BoxID]/2.0;
        if (Rc[BoxID] >= Hbox[BoxID])
        {
-         printf("Half of box length (%lf) of box %d has become smaller than Rc (%lf)\n", Hbox[BoxID], BoxID+1, Rc[BoxID]);
+         printf("Half of box length (%lf) of box %d has become smaller than Rc (%lf)\n", Hbox[BoxID], BoxID, Rc[BoxID]);
          exit(1);
        }
      }

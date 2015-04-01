@@ -23,7 +23,7 @@ int McvolMod(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
   (*Attempt)++;
   
   // ---Calulate New Volume
-  Volo[BoxID] = pow(Box[BoxID],3);
+  Volo[BoxID] = pow(Box[BoxID],3.0);
   Ran = RandomNumber();
   if (Ran < 0.5) AddFlag=1;
   else           AddFlag=-1;
@@ -104,7 +104,7 @@ int McvolMod(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
   // ---Acceptance:
   Dele = Enn[BoxID] - En[BoxID];
   Dlnv = log(Voln[BoxID]) / (double) Npbox[BoxID]- log(Volo[BoxID]) / ((double) (Npbox[BoxID] - AddFlag));
-  Arg = exp(-Beta * Dele - Dlnv) / (double) Npbox[BoxID]; // Note to Efrem: I'm excluding the de Broglie wavelength here because I don't know what to do with it
+  Arg = exp(-Beta * Dele - Dlnv) / (double) Npbox[BoxID] / pow(Lambda, 3.0*(double)AddFlag);
                    
   if(RandomNumber()<Arg)
   { 

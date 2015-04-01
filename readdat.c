@@ -35,6 +35,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   // Sig    = Sigma Lennard-Jones Potential
   // Mass   = Mass Of The Particle
   // Rcc    = Cut-Off Radius Of The Potential
+  // Lambda = thermal de Broglie wavelength
   
   //  ---Input Parameters: File: output.restart (Restart File
   //             To Continue A Simulation From Disk)
@@ -98,7 +99,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   fileptr=fopen("input.lj.model","r");
   fgets(line,300,fileptr);
   fgets(line,300,fileptr);
-  sscanf(line,"%lf %lf %lf %lf",&Eps,&Sig,&Mass,&Rcc);
+  sscanf(line,"%lf %lf %lf %lf %lf",&Eps,&Sig,&Mass,&Rcc,&Lambda);
   fclose(fileptr);
 
   //  ---Read/Generate Configuration
@@ -139,11 +140,11 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   printf("Number Of Particles in Box 0: %d\n",Npbox[0]);  
   printf("Volume of Box 0: %lf\n",Vol0);  
   printf("Box 0 Length: %lf\n",Box[0]);  
-  printf("Density Box 0: %lf\n",(double)(Npbox[0])/pow(Box[0],3));  
+  printf("Density Box 0: %lf\n",(double)(Npbox[0])/pow(Box[0],3.0));  
   printf("Number Of Particles in Box 1: %d\n",Npbox[1]);  
   printf("Volume of Box 1: %lf\n",Vol1);  
   printf("Box 1 Length: %lf\n",Box[1]);  
-  printf("Density Box 1: %lf\n",(double)(Npbox[1])/pow(Box[1],3));  
+  printf("Density Box 1: %lf\n",(double)(Npbox[1])/pow(Box[1],3.0));  
   printf("Temperature: %lf\n",Temp);  
   printf("Pressure: %lf\n",0.0);  
   if (TruncFlag==0) printf("Potential is: Truncated and Tail-Corrected\n");  

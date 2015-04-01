@@ -1,4 +1,4 @@
-extern double  Eps4,Eps48,Sig2,Sig,Mass,Rc[2],Rc2[2];
+extern double  Eps4,Eps48,Sig2,Sig,Mass,Rc[2],Rc2[2],Lambda;
 //extern double /Pot1/ Eps4,Eps48,Sig2,Mass,Rc[2],Rc2[2];
 //  Eps4      : 4 * Epsilon 
 //  Eps48     : 48 * Epsilon
@@ -8,3 +8,4 @@ extern double  Eps4,Eps48,Sig2,Sig,Mass,Rc[2],Rc2[2];
 //  Mass      : Mass Of The Molecules
 //  Rc        : Cut-Off Radius Of The Potenial
 //  Rc2       : Rc * Rc
+//  Lambda    : thermal de Broglie wavelength

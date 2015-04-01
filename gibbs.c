@@ -10,7 +10,7 @@ double X[Npmax],Y[Npmax],Z[Npmax];
 int Id[Npmax],Npart,Npbox[2];
 double Box[2],Hbox[2],Temp,Beta,DvMod;
 int TruncFlag, ModGibbsFlag;
-double  Eps4,Eps48,Sig2,Sig,Mass,Rc[2],Rc2[2];
+double  Eps4,Eps48,Sig2,Sig,Mass,Rc[2],Rc2[2],Lambda;
 double Chp[2];
 int Ichp[2]; 
 

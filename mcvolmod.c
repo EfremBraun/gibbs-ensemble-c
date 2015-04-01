@@ -45,7 +45,8 @@ int McvolMod(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
   if (Rc[BoxID] >= Hbox[BoxID])
   {
     printf("Half of box length (%lf) of box %d has become smaller than Rc (%lf)\n", Hbox[BoxID], BoxID, Rc[BoxID]);
-    printf("For your information, box %d currently has %d particles in it\n", BoxID, Npbox[BoxID]);
+    printf("Box %d had %d particles and a volume of %lf\n", 0, Npbox[0], pow(Box[0],3.0));
+    printf("Box %d had %d particles and a volume of %lf\n", 1, Npbox[1], pow(Box[1],3.0));
     exit(1);
   }
   

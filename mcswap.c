@@ -33,8 +33,8 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
      Idel = 0;
    }
   
-  Vola = pow(Box[Iadd],3);
-  Vold = pow(Box[Idel],3);
+  Vola = pow(Box[Iadd],3.0);
+  Vold = pow(Box[Idel],3.0);
   
   // ---Add A Particle To Box Iadd
   

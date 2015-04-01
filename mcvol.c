@@ -20,8 +20,8 @@ int Mcvol(double En[2], double Vir[2], int *Attempt, int *Acc, double Vmax)
   
   // ---Calulate New Volume By Making Random Walk In Ln V
   
-   Volo[0] = pow(Box[0],3);
-   Volo[1] = pow(Box[1],3);
+   Volo[0] = pow(Box[0],3.0);
+   Volo[1] = pow(Box[1],3.0);
    Volt = Volo[0] + Volo[1];
    Dlnv = log(Volo[0]/Volo[1]) + (RandomNumber()-0.5)*Vmax;
    Voln[0] = exp(Dlnv)*Volt/(1.0+exp(Dlnv)); // Note to Efrem: I don't get this calculation, but I won't be making moves in ln space, so it doesn't matter much to me.

@@ -9,8 +9,10 @@
 double X[Npmax],Y[Npmax],Z[Npmax];
 int Id[Npmax],Npart,Npbox[2];
 double Box[2],Hbox[2],Temp,Beta,DvMod;
+double AvgNpbox[2], AvgBox[2], AvgDens[2];
+int AvgCount[2];
 int TruncFlag, ModGibbsFlag;
-double  Eps4,Eps48,Sig2,Sig,Mass,Rc[2],Rc2[2],Lambda;
+double Eps4,Eps48,Sig2,Sig,Mass,Rc[2],Rc2[2],Lambda;
 double Chp[2];
 int Ichp[2]; 
 
@@ -26,7 +28,13 @@ int main()
   FILE *FileptrBox0, *FileptrBox1;
   FILE *FileptrSampleEq, *FileptrSampleProd;
   
-  // initialize the random number generator with the system time
+  //    ---Initialize running averages to 0
+  AvgNpbox[0] = 0.0; AvgNpbox[1] = 0.0;
+  AvgBox[0] = 0.0; AvgBox[1] = 0.0;
+  AvgDens[0] = 0.0; AvgDens[1] = 0.0;
+  AvgCount[0] = 0; AvgCount[1] = 0;
+  
+  //    ---Initialize the random number generator with the system time
   InitializeRandomNumberGenerator(time(0l));
   
   printf("**************** GIBBS ***************\n");
@@ -115,7 +123,17 @@ int main()
       }
       if(I==2)
       {  
-        if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir, FileptrSampleProd);
+        if((Icycl%Nsamp)==0) 
+        {
+          Sample(Icycl, En, Vir, FileptrSampleProd);
+          for(BoxID=0;BoxID<2;BoxID++)
+          {
+            AvgNpbox[BoxID] = (AvgNpbox[BoxID] * (double) AvgCount[BoxID] + (double) Npbox[BoxID]) / (double) (AvgCount[BoxID]+1);
+            AvgBox[BoxID] = (AvgBox[BoxID] * (double) AvgCount[BoxID] + Box[BoxID]) / (double) (AvgCount[BoxID]+1);
+            AvgDens[BoxID] = (AvgDens[BoxID] * (double) AvgCount[BoxID] + (double) Npbox[BoxID] / pow(Box[BoxID],3.0)) / (double) (AvgCount[BoxID]+1);
+            AvgCount[BoxID]++;
+          }
+        }
       }
       //             ---Print Movie PDB
       if((Icycl%Nprint)==0) WritePdb(FileptrBox0, FileptrBox1);
@@ -127,6 +145,8 @@ int main()
         Fileptr=fopen("output.restart","w");
         Store(Fileptr, Dr, Vmax);
         fclose(Fileptr);
+
+        //             ---Print Output
         for(BoxID=0;BoxID<2;BoxID++)
         {
           printf("Box %d: Density: %g\n", BoxID, (double)Npbox[BoxID]/pow(Box[BoxID],3.));
@@ -189,9 +209,9 @@ int main()
         printf("Total Virial End of Simulation: %g\n",Virt[BoxID]);
         printf("Running Virial: %g\n",Vir[BoxID]);
         printf("Difference: %g\n",(Virt[BoxID] - Vir[BoxID]));
-        printf("Number of particles: %d\n",Npbox[BoxID]);
-        printf("Volume of box: %g\n",pow(Box[BoxID],3.));
-        printf("Density: %g\n",(double)Npbox[BoxID]/pow(Box[BoxID],3.));
+        printf("Avg. Number of particles: %g\n",AvgNpbox[BoxID]);
+        printf("Avg. Volume of box: %g\n",pow(AvgBox[BoxID],3.));
+        printf("Avg. Density: %g\n",AvgDens[BoxID]); // Note that average density should not be AvgNp/AvgVol
       }
       //          ---Calculation Chemical Potential
       printf("\n");

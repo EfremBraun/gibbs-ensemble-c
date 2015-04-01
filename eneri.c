@@ -16,7 +16,7 @@ int Eneri(double Xi, double Yi, double Zi, int I, int Jb, double *En, double *Vi
     {
       if(Id[J]==BoxID)
 	{
-	  if(J!=I)
+	  if(J!=I)  // Note to Efrem: I don't think this "if" statement is necessary
 	    {
 	      Dx = Xi - X[J];
 	      Dy = Yi - Y[J];

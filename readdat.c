@@ -171,7 +171,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
 	}
       else
 	{
-          printf("Rcc (%lf) is greater than Hbox[%d] (%lf)\n",Rcc, BoxID, Hbox[BoxID]);
+          printf("Half of both length (%lf) of box %d is smaller than Rcc (%lf)\n", Hbox[BoxID], BoxID, Rcc);
           exit(1);
 	}
       Rc2[BoxID] = Rc[BoxID]*Rc[BoxID];

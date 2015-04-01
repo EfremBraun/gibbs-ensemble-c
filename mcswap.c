@@ -12,7 +12,7 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
 {
   // ---Exchange A Particle Bewteen The Two Boxes
   
-  double Xn, Yn, Zn, Enn, Virn, Eno, Viro, Tail; 
+  double Xn, Yn, Zn, Enn, Virn, Eno, Viro, Tail=0.0; 
   double Arg, Vola, Vold; 
   double Xo, Yo, Zo, Dele;
   double DelTail[2];
@@ -53,12 +53,12 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
   if (TruncFlag==0)
   {
     Tail = TailC(Iadd) * (double) (Npbox[Iadd]+1); // Note to Efrem: I don't think this tail contribution to the chemical potential is right. See page 174 of Berend's book.
-    Arg = -Beta*(Enn+Tail);
   }
   else if (TruncFlag==1)
   {
-    Arg = -Beta*Enn;
+    Tail = 0.0;
   }
+  Arg = -Beta*(Enn+Tail);
   Chp[Iadd] = Chp[Iadd] * ((double) Ichp[Iadd] / (double) (Ichp[Iadd]+1)) + Vola*exp(Arg)/(double)(Npbox[Iadd]+1) / (double) (Ichp[Iadd]+1);
   Ichp[Iadd]++;
   

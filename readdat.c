@@ -153,6 +153,7 @@ void Readdat(int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl,double *Dr
   printf("Epsilon: %lf\n",Eps);  
   printf("Sigma: %lf\n",Sig);
   printf("Mass: %lf\n",Mass);
+  printf("Lambda: %lf\n",Lambda);
   
   //  ---Calculate Parameters:
   Beta  = 1.0/Temp;

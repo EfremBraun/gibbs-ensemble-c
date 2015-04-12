@@ -8,7 +8,7 @@
 
 double X[Npmax],Y[Npmax],Z[Npmax];
 int Id[Npmax],Npart,Npbox[2];
-double Box[2],Hbox[2],Temp,Beta,DvMod;
+double Box[2],Hbox[2],Temp,Beta,BetaMelt,DvMod;
 double AvgNpbox[2], AvgBox[2], AvgDens[2];
 int AvgCount[2];
 int TruncFlag, ModGibbsFlag;
@@ -19,14 +19,14 @@ int Ichp[2];
 int main()
 {
   //    ---Gibbs-Ensemble Simulation Of The Lennard-Joned Fluid
-  int  Equil, Prod, Nsamp, Nprint, I, Icycl, Ndispl, Attempt; 
+  int  Melt, Equil, Prod, Nsamp, Nprint, I, Icycl, Ndispl, Attempt; 
   int  Nacc, Ncycl, Nmoves, Imove, Nvol, AcceptVolume; 
   int  AttemptVolume, BoxID, Nswap, AcceptSwap, AttemptSwap;
   double En[2], Ent[2], Vir[2], Virt[2], Vmax, Dr; 
   double Ran, Succ;
   FILE *Fileptr;
   FILE *FileptrBox0, *FileptrBox1;
-  FILE *FileptrSampleEq, *FileptrSampleProd;
+  FILE *FileptrSampleMelt, *FileptrSampleEq, *FileptrSampleProd;
   
   //    ---Initialize running averages to 0
   AvgNpbox[0] = 0.0; AvgNpbox[1] = 0.0;
@@ -41,7 +41,7 @@ int main()
   
   //    ---Initialize System
   printf("\nSYSTEM INITIALIZATION\n");
-  Readdat(&Equil, &Prod, &Nsamp, &Nprint, &Ndispl, &Dr, &Nvol, &Vmax, &Nswap, &Succ);
+  Readdat(&Melt, &Equil, &Prod, &Nsamp, &Nprint, &Ndispl, &Dr, &Nvol, &Vmax, &Nswap, &Succ);
   Nmoves = Ndispl + Nvol + Nswap;
   
   //    ---Total Energy Of The System
@@ -56,8 +56,10 @@ int main()
   // Open movie pdb files and sampling files, print header to sampling files
   FileptrBox0=fopen("movie-box0.pdb","w");
   FileptrBox1=fopen("movie-box1.pdb","w");
+  FileptrSampleMelt=fopen("output.sample.melt","w");
   FileptrSampleEq=  fopen("output.sample.eq","w");
   FileptrSampleProd=fopen("output.sample.prod","w");
+  fprintf(FileptrSampleMelt, "  Cycle       Enp0       Enp1     Press0     Press1       Rho0       Rho1    Np0    Np1       Vol0       Vol1\n");
   fprintf(FileptrSampleEq,   "  Cycle       Enp0       Enp1     Press0     Press1       Rho0       Rho1    Np0    Np1       Vol0       Vol1\n");
   fprintf(FileptrSampleProd, "  Cycle       Enp0       Enp1     Press0     Press1       Rho0       Rho1    Np0    Np1       Vol0       Vol1\n");
 
@@ -65,12 +67,18 @@ int main()
   WritePdb(FileptrBox0, FileptrBox1);
 
   //    ---Start MC Cycle
-  for(I=1;I<3;I++)
+  for(I=1;I<4;I++)
   {
-    //       --- I=1 Equilibration
-    //       --- I=2 Production
-    
+    //       --- I=1 Melting
+    //       --- I=2 Equilibration
+    //       --- I=3 Production
+   
     if(I==1)
+    {
+      Ncycl = Melt;
+      if(Ncycl!=0) printf("\nSTART MELTING\n"); 
+    }
+    else if(I==2)
     {
       Ncycl = Equil;
       if(Ncycl!=0) printf("\nSTART EQUILIBRATION\n"); 
@@ -98,30 +106,42 @@ int main()
     {
       for(Imove=0;Imove<Nmoves;Imove++)
       {
-        Ran = RandomNumber()*(Ndispl+Nvol+Nswap);
-        if(Ran<(double)(Ndispl)) 
-        { 
+        if(I==1)
+        {  
           //                ---Attempt To Displace A Particle
-          Mcmove(En, Vir, &Attempt, &Nacc, Dr);
-        }
-        else if (Ran<(double)(Ndispl+Nvol))
-        {
-          //                ---Attempt To Change The Volume
-          if (ModGibbsFlag==0) Mcvol(En, Vir, &AttemptVolume,&AcceptVolume, Vmax);
-          if (ModGibbsFlag==1) McvolMod(En, Vir, &AttemptVolume,&AcceptVolume, Vmax);
+          Mcmove(En, Vir, &Attempt, &Nacc, Dr, BetaMelt);
         }
         else
         {
-          //                ---Attemp To Exchange Particles
-          Mcswap(En, Vir, &AttemptSwap, &AcceptSwap);
+          Ran = RandomNumber()*(Ndispl+Nvol+Nswap);
+          if(Ran<(double)(Ndispl)) 
+          { 
+            //                ---Attempt To Displace A Particle
+            Mcmove(En, Vir, &Attempt, &Nacc, Dr, Beta);
+          }
+          else if (Ran<(double)(Ndispl+Nvol))
+          {
+            //                ---Attempt To Change The Volume
+            if (ModGibbsFlag==0) Mcvol(En, Vir, &AttemptVolume,&AcceptVolume, Vmax);
+            if (ModGibbsFlag==1) McvolMod(En, Vir, &AttemptVolume,&AcceptVolume, Vmax);
+          }
+          else
+          {
+            //                ---Attemp To Exchange Particles
+            Mcswap(En, Vir, &AttemptSwap, &AcceptSwap);
+          }
         }
       }
       //             ---Sample Averages
       if(I==1)
       {  
-        if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir, FileptrSampleEq);
+        if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir, FileptrSampleMelt);
       }
       if(I==2)
+      {  
+        if((Icycl%Nsamp)==0) Sample(Icycl, En, Vir, FileptrSampleEq);
+      }
+      if(I==3)
       {  
         if((Icycl%Nsamp)==0) 
         {
@@ -165,6 +185,11 @@ int main()
       if(Attempt!=0) 
       {
         if(I==1) 
+        {
+          printf("Finished melting\n");
+          printf("\nMELTING STATS\n");
+        }
+        else if(I==2) 
         {
           printf("Finished Equilibration\n");
           printf("\nEQUILIBRATION STATS\n");
@@ -226,6 +251,7 @@ int main()
   WritePdb(FileptrBox0, FileptrBox1);
   fclose(FileptrBox0);
   fclose(FileptrBox1);
+  fclose(FileptrSampleMelt);
   fclose(FileptrSampleEq);
   fclose(FileptrSampleProd);
 

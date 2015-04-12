@@ -7,7 +7,7 @@
 #include "conf.h"  
 #include "system.h"  
 
-int Mcmove(double En[2], double Vir[2], int *Attempt, int *Nacc, double Dr)
+int Mcmove(double En[2], double Vir[2], int *Attempt, int *Nacc, double Dr, double BetaInt)
 {
   // Attempts To Displace A Randomly Selected Particle
   
@@ -36,7 +36,7 @@ int Mcmove(double En[2], double Vir[2], int *Attempt, int *Nacc, double Dr)
   Eneri(Xn, Yn, Zn, Idmove, Jb, &Enn, &Virn, Ido);
   
   // ---Acceptance Test
-  if(RandomNumber()<exp(-Beta*(Enn-Eno)))
+  if(RandomNumber()<exp(-BetaInt*(Enn-Eno)))
     {
       //    --Accepted
       (*Nacc)++;

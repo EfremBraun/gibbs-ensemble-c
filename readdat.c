@@ -29,7 +29,7 @@ void Readdat(int *Melt, int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl
   // Temp          : Temperature
   // TempMelt      : Temperature to run melting cycles
   // Rho           : Density
-  // TruncFlag     : 0 to do truncated with tail corrections, 1 to do truncated and shifted
+  // TruncFlag     : 0 to do truncated with tail corrections, 1 to do truncated and shifted, 2 to do simply truncated
   // ModGibbsFlag  : 0 to do normal Gibbs Ensemble, 1 to do modified Gibbs Ensemble
   
   //  ---Input Parameters: File: input.lj.model
@@ -154,6 +154,7 @@ void Readdat(int *Melt, int *Equil,int *Prod,int *Nsamp,int *Nprint, int *Ndispl
   printf("Pressure: %lf\n",0.0);  
   if (TruncFlag==0) printf("Potential is: Truncated and Tail-Corrected\n");  
   else if (TruncFlag==1) printf("Potential is: Truncated and Shifted\n");  
+  else if (TruncFlag==2) printf("Potential is: Simply Truncated\n");  
   printf("Model Parameters\n");
   printf("Epsilon: %lf\n",Eps);  
   printf("Sigma: %lf\n",Sig);

@@ -54,7 +54,7 @@ int Mcswap(double En[2], double Vir[2],int *Attempt, int *Acc)
   {
     Tail = TailC(Iadd) * (double) (Npbox[Iadd]+1); // Note to Efrem: I don't think this tail contribution to the chemical potential is right. See page 174 of Berend's book.
   }
-  else if (TruncFlag==1)
+  else
   {
     Tail = 0.0;
   }

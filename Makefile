@@ -29,7 +29,7 @@ OBJS	      =	adjust.o      \
 		readdat.o     \
 		sample.o      \
 		store.o       \
-		tailc.o        \
+		tailc.o       \
 		toterg.o      \
 		writepdb.o
 

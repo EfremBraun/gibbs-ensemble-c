@@ -1,0 +1,16 @@
+ nmelt  nequil   nprod   nsamp  nprint
+  1000  200000  200000       1     100
+    dr    vmax    succ
+  0.09    0.01     50.
+ndispl    nvol   nswap
+   400       5      50
+npart0    vol0  npart1    vol1
+   200     625     200     625
+  temp  T_melt
+${temp}    3.0
+0 to initialize boxes from lattice, 1 to read configuration from restart file
+0
+0 for trunc+tail, 1 for trunc+shifted, 2 for simple trunc
+0
+0 for Gibbs Ensemble, 1 for modified Gibbs Ensemble
+0
